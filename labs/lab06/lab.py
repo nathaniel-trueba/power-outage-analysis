@@ -4,7 +4,8 @@
 import os
 import pandas as pd
 import numpy as np
-np.set_printoptions(legacy='1.21')
+
+np.set_printoptions(legacy="1.21")
 import requests
 import bs4
 import lxml
@@ -33,15 +34,24 @@ def question1():
 # ---------------------------------------------------------------------
 
 
+def extract_book_links(text): ...
 
-def extract_book_links(text):
-    ...
 
-def get_product_info(text, categories):
-    ...
+def get_product_info(text, categories): ...
 
-def scrape_books(k, categories):
-    ...
+
+def scrape_books(k, categories): ...
+
+
+# ---------------------------------------------------------------------
+# QUESTION 3
+# ---------------------------------------------------------------------
+
+
+def stock_history(symbol, year, month): ...
+
+
+def stock_stats(history): ...
 
 
 # ---------------------------------------------------------------------
@@ -49,5 +59,4 @@ def scrape_books(k, categories):
 # ---------------------------------------------------------------------
 
 
-def get_comments(storyid):
-    ...
+def get_comments(storyid): ...
