@@ -28,6 +28,8 @@ from lab import *
 
 import pandas as pd
 import numpy as np
+np.set_printoptions(legacy='1.21')
+import itertools
 import plotly.express as px
 import statsmodels.api as sm
 from pathlib import Path
