@@ -90,4 +90,3 @@ def tree_reg_perf(galton):
 def knn_reg_perf(galton):
     # Add your imports here
     ...
-

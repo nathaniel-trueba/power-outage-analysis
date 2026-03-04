@@ -6,7 +6,7 @@ import sys
 questions = sys.argv[1:]
 
 
-valid_ids = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6']
+valid_ids = ['q1', 'q2', 'q3', 'q4', 'q5']
 break_flag = False
 invalid_ids = []
 for question in questions:
@@ -152,16 +152,5 @@ fig.update_xaxes(title_text='Tree Depth', row=1, col=1, tickvals=np.arange(1,21,
 fig.update_xaxes(title_text='# Neighbors', row=1, col=2, tickvals=np.arange(1,21,2))
 
 fig.show()
-
-# Experiment using `titanic` below – remember, this is only your training data
-titanic = pd.read_csv(Path('data') / 'titanic.csv')
-titanic.head()
-
-# don't change this cell, but do run it -- it is needed for the tests
-q6_data_test = pd.read_csv(Path('data') / 'titanic.csv')
-pl_test = titanic_model(q6_data_test)
-
-if 'q6' in questions or questions == [] or 'all' in questions:
-    print(grader.check("q6"))
 
 
