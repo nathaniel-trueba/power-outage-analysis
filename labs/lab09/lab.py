@@ -91,12 +91,3 @@ def knn_reg_perf(galton):
     # Add your imports here
     ...
 
-
-# ---------------------------------------------------------------------
-# QUESTION 6
-# ---------------------------------------------------------------------
-
-
-def titanic_model(titanic):
-    # Add your import(s) here
-    ...
