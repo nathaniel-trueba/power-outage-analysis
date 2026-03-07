@@ -1,3 +1,2 @@
-# power-outage-analysis
-Power Outage Analysis
+# Power Outage Analysis
 by Nathaniel Trueba
