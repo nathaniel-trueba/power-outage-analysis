@@ -1,5 +1,3 @@
 # power-outage-analysis
-
-testing readme
-
-testing again
+Power Outage Analysis
+by Nathaniel Trueba
