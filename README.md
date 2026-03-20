@@ -188,15 +188,13 @@ I started by exploratory data analysis with univariate analysis to visualize the
 First, I examined the distribution of outage duration. This allowed me to visualize how outage lengths vary across events and whether the distribution is concentrated among shorter outages more extreme durations.
 
 
-<h3>Distribution of Outage Duration</h3>
-<iframe src="duration_hist.html" width="100%" height="500"></iframe>
+![Distribution of Outage Duration](assets/images/duration-hist.png)
 
 
 Then, I looked at the distribution of customers affected. This allowed me to see the scale of the outages and show whether most events impact a few customers or if a small number of large-scale outages dominate the dataset.
 
 
-<h3>Distribution of Customers Affected</h3>
-<iframe src="customers_hist.html" width="100%" height="500"></iframe>
+![Distribution of Customers Affected](assets/images/customers-hist.png)
 
 
 #### Bivariate Analysis
@@ -206,22 +204,19 @@ Next, I examined the relationships between 2 variables to see if patterns emerge
 I began by examining the relationship between Outage Duration and Demand Loss. I expected to see a positive association because the longer an outage lasts, the more demand is lost over time. 
 
 
-<h3>Outage Duration vs Demand Loss</h3>
-<iframe src="duration_vs_demand.html" width="100%" height="500"></iframe>
+![Outage Duration vs Demand Loss](assets/images/duration-vs-demand.png)
 
 
 Next, I visualized the relationship between urbanization and customers affected. I expected to see a positive association because outages in more urbanized areas are likely to impact a larger number of customers due to higher population density. This helps assess whether urbanization is a predictor of outage scale.
 
 
-<h3>Urbanization vs Customers Affected</h3>
-<iframe src="urban_vs_customers.html" width="100%" height="500"></iframe>
+![Urbanization vs Customers Affected](assets/images/urban-vs-customers.png)
 
 
 Lastly, I plotted outage duration against customers affected to see if longer outages impact more people. This helps determine whether outage severity is driven primarily by duration, scale or both.
 
 
-<h3>Outage Duration vs Customers Affected</h3>
-<iframe src="duration_vs_customers.html" width="100%" height="500"></iframe>
+![Outage Duration vs Customers Affected](assets/images/duration-vs-customers.png)
 
 
 #### Grouping and Aggregation 
@@ -303,17 +298,19 @@ I used GridSearchCV to select the best hyperparameters for the DecisionTreeClass
 BLANK
 
 # Fairness Analysis
-My groups for the fairness analysis are 
+My groups for the fairness analysis are longer vs shorter outages, defined as outages with duration greater than 3000 minutes versus those with duration less than or equal to 3000 minutes. 
 
 
-I decided to use these groups because 
+I decided to use these groups because outage duration reflects severity, and the model’s predicted cause can influence how well it performs across different levels of severity. Ensuring similar performance across these groups checks whether the model is consistent for both high-impact and lower-impact outages.
 
 
-My evaluation metric will be 
-
-**Null Hypothesis:** The model is fair.
+My evaluation metric will be the F1 score, since the classes are imbalanced and F1 captures both precision and recall. I compare the absolute difference in F1 scores between longer and shorter outages.
 
 
-**Alternative Hypothesis:** The model is unfair. 
+**Null Hypothesis:** The model is fair. F1 scores for longer and shorter outages are approximately equal, and any observed difference is due to random chance.
 
-I performed a permutation test with 10000 trials. My significance level is the standard 0.05, and I got a p_value of 0.0 so because this is below the significance level, I reject the null hypothesis. The model is significantly different in terms of F1 score for longer vs shorter outages.
+
+**Alternative Hypothesis:** The model is unfair. F1 score differs significantly between longer and shorter outages.
+
+
+I performed a permutation test with 10000 trials. My significance level is the 0.05, and I got a p_value of BLANK so because this is below the significance level, I BLANK the null hypothesis. The model is 
