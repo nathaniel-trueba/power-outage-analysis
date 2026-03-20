@@ -666,19 +666,22 @@ I used the F1 score to evaluate performance. The final model achieved an F1 scor
 
 
 # Fairness Analysis
-My groups for the fairness analysis are longer vs shorter outages, defined as outages with duration greater than 3000 minutes versus those with duration less than or equal to 3000 minutes. 
+My groups for the fairness analysis are outages in high-demand-loss versus low-demand-loss settings. I defined these groups by splitting outages based on whether DEMAND.LOSS.MW is above or below its median value.
 
 
-I decided to use these groups because outage duration reflects severity, and the model’s predicted cause can influence how well it performs across different levels of severity. Ensuring similar performance across these groups checks whether the model is consistent for both high-impact and lower-impact outages.
+I chose these groups because demand loss reflects the severity and impact of an outage. This is important to make sure the model performs consistently across both high-impact and lower-impact outages. If performance differs across these groups, the model may be less reliable.
 
 
-My evaluation metric will be the F1 score, since the classes are imbalanced and F1 captures both precision and recall. I compare the absolute difference in F1 scores between longer and shorter outages.
+My evaluation metric will be the F1 score, since the classes are imbalanced and F1 accounts for both precision and recall. I compare the absolute difference in F1 scores between high-demand-loss and low-demand-loss outages.
 
 
-**Null Hypothesis:** The model is fair. F1 scores for longer and shorter outages are approximately equal, and any observed difference is due to random chance.
+**Null Hypothesis:** The model is fair. The F1 scores for high-demand-loss and low-demand-loss outages are approximately equal, and any observed difference is due to random chance.
 
 
-**Alternative Hypothesis:** The model is unfair. F1 score differs significantly between longer and shorter outages.
+**Alternative Hypothesis:** The model is unfair. The F1 score differs significantly between high-demand-loss and low-demand-loss outages.
 
 
-I performed a permutation test with 10000 trials. My significance level is the 0.05, and I got a p_value of BLANK so because this is below the significance level, I BLANK the null hypothesis. The model is 
+I performed a permutation test with 10,000 trials. Using a standard significance level of 0.05, I obtained a p-value of 0.004. Since this is below the significance level, I reject the null hypothesis. The model shows a significant difference in F1 score between high-demand-loss and low-demand-loss outages, indicating that its performance is not consistent across these groups.
+
+
+'![Fairness Analysis](assets/images/fairness.png)'
