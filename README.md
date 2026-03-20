@@ -585,25 +585,37 @@ Finally, I used a pivot table to summarize average outage duration and demand lo
 
 # Assessment of Missingness
 #### MNAR Analysis
+Several columns contain missing data in this dataset, but one column that is likely NMAR is **OUTAGE.DURATION**. The missingness could come from how outage timelines are recorded and reported across different sources. If certain outages did not have clearly documented start or restoration times then the duration couldnt be computed which could create a missing value. This missingness is tied to the unobserved value itself rather than being fully explained by other variables in the dataset.
+
+Additional data that could help determine whether **OUTAGE.DURATION** is MAR would include more detailed reporting info like the specific reporting entity responsible for each outage. With this we could test whether missingness depends on observed variables like region, cause category, or reporting source, rather than the unobserved duration itself.
 
 
 #### Missing Dependency
-##### Cause
+First, I examine the distribution of Cause Category when Outage Duration is missing vs not missing.
+I found an observed TVD of 0.2520 with a p-value of 0.0012. The empirical distribution of the TVDs is shown below. Since this p-value is below the significance level of 0.05, I reject the null hypothesis for the alternative. This means the distribution of CAUSE.CATEGORY is significantly different when OUTAGE.DURATION is missing versus not missing suggesting that the missingness of OUTAGE.DURATION depends on CAUSE.CATEGORY.
 
-##### Month
+
+![Cause Category when Outage Duration is missing vs not missing](assets/images/TVD 1.png)
+
+
+Next, I examine the distribution of Cause Category when Demand Loss is missing vs not missing.
+I found an observed TVD of 0.1787 with a p-value of 0.0. The empirical distribution of the TVDs is shown below. Since this p-value is far below 0.05, I reject the null hypothesis in favor of the alternative. This indicates that the distribution of CAUSE.CATEGORY is significantly different when DEMAND.LOSS.MW is missing versus not missing, suggesting that the missingness of DEMAND.LOSS.MW depends on CAUSE.CATEGORY.
+
+
+![Cause Category when Demand Loss is missing vs not missing](assets/images/TVD 2.png)
 
 
 # Hypothesis Testing
 I will be testing whether outages caused by severe weather lead to greater demand loss on average compared to outages caused by other factors. The relevant columns are DEMAND.LOSS.MW and CAUSE.CATEGORY. I will use outages where CAUSE.CATEGORY is “severe weather” and compare them to all other categories.
 
 
-**Null Hypothesis: ** On average, the demand loss from severe weather outages is the same as the demand loss from outages caused by other factors.
+**Null Hypothesis:** On average, the demand loss from severe weather outages is the same as the demand loss from outages caused by other factors.
  
 
-**Alternate Hypothesis: ** On average, the demand loss from severe weather outages is greater than the demand loss from outages caused by other factors.
+**Alternate Hypothesis:** On average, the demand loss from severe weather outages is greater than the demand loss from outages caused by other factors.
 
 
-**Test statistic: ** Difference in means. Specifically, mean demand loss (severe weather) − mean demand loss (other causes). 
+**Test statistic:** Difference in means. Specifically, mean demand loss (severe weather) − mean demand loss (other causes). 
 
 
 I performed a permutation test with 10,000 simulations to generate the null distribution of the test statistic.
