@@ -249,47 +249,45 @@ Pivot table
 
 
 # Hypothesis Testing
-I will be testing BLANK
+I will be testing whether outages caused by severe weather lead to greater demand loss on average compared to outages caused by other factors. The relevant columns are DEMAND.LOSS.MW and CAUSE.CATEGORY. I will use outages where CAUSE.CATEGORY is “severe weather” and compare them to all other categories.
 
 
-**Null Hypothesis: ** The 
+**Null Hypothesis: ** On average, the demand loss from severe weather outages is the same as the demand loss from outages caused by other factors.
+ 
+
+**Alternate Hypothesis: ** On average, the demand loss from severe weather outages is greater than the demand loss from outages caused by other factors.
 
 
-**Alternate Hypothesis: ** The 
+**Test statistic: ** Difference in means. Specifically, mean demand loss (severe weather) − mean demand loss (other causes). 
 
 
-**Test statistic: ** The 
+I performed a permutation test with 10,000 simulations to generate the null distribution of the test statistic.
 
 
-I performed permutation with 
+I got a p-value of BLANK, indicating strong evidence against the null hypothesis at a 0.05 significance level.
 
 
-I got a p value of 
-
-
-This plot shows the 
+This plot shows the observed difference in means compared to the distribution of differences generated under the null hypothesis.
 
 
 # Framing a Prediction Problem
-My model will 
+My model will predict the cause of a power outage, specifically whether it is due to severe weather or not. This is a binary classification problem.
 
 
-The metric I'm using is
+The metric I'm using is the F1 score, since class imbalance is likely and F1 balances precision and recall.
 
 
-At the time of prediction, I would have variables 
+At the time of prediction, I would have variables such as state, NERC region, climate region, anomaly level, year, month, total sales, total price, total customers, and urbanization metrics.
 
 
 # Baseline Model
-My model is a 
-
-My model's features are 
+My model is a binary classification model.
 
 
-The predicted column was 
+My model's features are NERC.REGION, ANOMALY.LEVEL, YEAR, and URBAN.
 
 
-My model had performance of 
+The predicted column was CAUSE.CATEGORY, encoded as 1 for severe weather and 0 for other causes.
 
 
 # Final Model

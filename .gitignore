@@ -1,6 +1,7 @@
-.ipynb_checkpoints
-.DS_Store
-
 __pycache__/
 *.pyc
 .OTTER_LOG
+.DS_Store
+labs/
+lectures/
+projects/
