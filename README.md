@@ -221,16 +221,366 @@ Lastly, I plotted outage duration against customers affected to see if longer ou
 
 #### Grouping and Aggregation 
 I grouped the dataset by NERC Region to see the distribution of outages by region. This provides a way to see which regions experience more severe outages.
-open 
-Grouped table 1
+
+<div style="max-height: 400px; overflow-y: auto; overflow-x: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>num_outages</th>
+      <th>avg_duration</th>
+      <th>avg_customers_affected</th>
+      <th>avg_demand_loss</th>
+    </tr>
+    <tr>
+      <th>NERC.REGION</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>WECC</th>
+      <td>451</td>
+      <td>1481.49</td>
+      <td>133833.07</td>
+      <td>498.24</td>
+    </tr>
+    <tr>
+      <th>RFC</th>
+      <td>419</td>
+      <td>3477.96</td>
+      <td>127894.23</td>
+      <td>293.15</td>
+    </tr>
+    <tr>
+      <th>SERC</th>
+      <td>205</td>
+      <td>1737.99</td>
+      <td>107854.04</td>
+      <td>556.33</td>
+    </tr>
+    <tr>
+      <th>NPCC</th>
+      <td>150</td>
+      <td>3262.17</td>
+      <td>108726.04</td>
+      <td>930.12</td>
+    </tr>
+    <tr>
+      <th>TRE</th>
+      <td>111</td>
+      <td>2960.57</td>
+      <td>226468.65</td>
+      <td>635.62</td>
+    </tr>
+    <tr>
+      <th>SPP</th>
+      <td>67</td>
+      <td>2693.77</td>
+      <td>188513.00</td>
+      <td>159.00</td>
+    </tr>
+    <tr>
+      <th>MRO</th>
+      <td>46</td>
+      <td>2933.59</td>
+      <td>88984.97</td>
+      <td>279.50</td>
+    </tr>
+    <tr>
+      <th>FRCC</th>
+      <td>44</td>
+      <td>4271.12</td>
+      <td>289778.18</td>
+      <td>804.45</td>
+    </tr>
+    <tr>
+      <th>ECAR</th>
+      <td>34</td>
+      <td>5603.31</td>
+      <td>256354.19</td>
+      <td>1314.48</td>
+    </tr>
+    <tr>
+      <th>HECO</th>
+      <td>3</td>
+      <td>895.33</td>
+      <td>126728.67</td>
+      <td>466.67</td>
+    </tr>
+    <tr>
+      <th>ASCC</th>
+      <td>1</td>
+      <td>NaN</td>
+      <td>14273.00</td>
+      <td>35.00</td>
+    </tr>
+    <tr>
+      <th>FRCC, SERC</th>
+      <td>1</td>
+      <td>372.00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>HI</th>
+      <td>1</td>
+      <td>1367.00</td>
+      <td>294000.00</td>
+      <td>1060.00</td>
+    </tr>
+    <tr>
+      <th>PR</th>
+      <td>1</td>
+      <td>174.00</td>
+      <td>62000.00</td>
+      <td>220.00</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 Then, I group by cause category to see how different types of outage causes vary in frequency and impact. This helps us identify whether certain causes are associated with specific type of outages.
 
-Grouped 2
 
-Fianlly, I used a pivot table to summarize average outage duration and demand loss across regions and cause. This allows for a simple comparison of how outage characteristics differ across key dimensions.
+<div style="max-height: 400px; overflow-y: auto; overflow-x: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>num_outages</th>
+      <th>avg_duration</th>
+      <th>avg_customers_affected</th>
+      <th>avg_demand_loss</th>
+    </tr>
+    <tr>
+      <th>CAUSE.CATEGORY</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>severe weather</th>
+      <td>763</td>
+      <td>3883.99</td>
+      <td>188574.80</td>
+      <td>618.66</td>
+    </tr>
+    <tr>
+      <th>intentional attack</th>
+      <td>418</td>
+      <td>429.98</td>
+      <td>1790.53</td>
+      <td>9.15</td>
+    </tr>
+    <tr>
+      <th>system operability disruption</th>
+      <td>127</td>
+      <td>728.87</td>
+      <td>211066.02</td>
+      <td>928.90</td>
+    </tr>
+    <tr>
+      <th>public appeal</th>
+      <td>69</td>
+      <td>1468.45</td>
+      <td>7618.76</td>
+      <td>1784.93</td>
+    </tr>
+    <tr>
+      <th>equipment failure</th>
+      <td>60</td>
+      <td>1816.91</td>
+      <td>101935.57</td>
+      <td>372.40</td>
+    </tr>
+    <tr>
+      <th>fuel supply emergency</th>
+      <td>51</td>
+      <td>13484.03</td>
+      <td>0.14</td>
+      <td>540.22</td>
+    </tr>
+    <tr>
+      <th>islanding</th>
+      <td>46</td>
+      <td>200.55</td>
+      <td>6169.09</td>
+      <td>396.56</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
-Pivot table
+
+Finally, I used a pivot table to summarize average outage duration and demand loss across regions and cause. This allows for a simple comparison of how outage characteristics differ across key dimensions.
+
+
+<div style="max-height: 400px; overflow-y: auto; overflow-x: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>CAUSE.CATEGORY</th>
+      <th>equipment failure</th>
+      <th>fuel supply emergency</th>
+      <th>intentional attack</th>
+      <th>islanding</th>
+      <th>public appeal</th>
+      <th>severe weather</th>
+      <th>system operability disruption</th>
+    </tr>
+    <tr>
+      <th>NERC.REGION</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ECAR</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1440.00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6035.14</td>
+      <td>2960.67</td>
+    </tr>
+    <tr>
+      <th>FRCC</th>
+      <td>554.50</td>
+      <td>NaN</td>
+      <td>50.00</td>
+      <td>NaN</td>
+      <td>4320.00</td>
+      <td>6420.19</td>
+      <td>181.88</td>
+    </tr>
+    <tr>
+      <th>FRCC, SERC</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>372.00</td>
+    </tr>
+    <tr>
+      <th>HECO</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1224.50</td>
+      <td>237.00</td>
+    </tr>
+    <tr>
+      <th>HI</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1367.00</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>MRO</th>
+      <td>NaN</td>
+      <td>9077.33</td>
+      <td>2061.25</td>
+      <td>97.00</td>
+      <td>554.00</td>
+      <td>3217.33</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>NPCC</th>
+      <td>247.00</td>
+      <td>14351.85</td>
+      <td>158.38</td>
+      <td>881.00</td>
+      <td>2655.00</td>
+      <td>4188.71</td>
+      <td>930.00</td>
+    </tr>
+    <tr>
+      <th>PR</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>174.00</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>RFC</th>
+      <td>10005.12</td>
+      <td>33118.80</td>
+      <td>379.55</td>
+      <td>87.20</td>
+      <td>905.00</td>
+      <td>4051.32</td>
+      <td>2354.50</td>
+    </tr>
+    <tr>
+      <th>SERC</th>
+      <td>299.14</td>
+      <td>14805.00</td>
+      <td>434.46</td>
+      <td>223.00</td>
+      <td>1260.15</td>
+      <td>2104.77</td>
+      <td>479.71</td>
+    </tr>
+    <tr>
+      <th>SPP</th>
+      <td>600.00</td>
+      <td>76.00</td>
+      <td>252.50</td>
+      <td>493.50</td>
+      <td>1013.81</td>
+      <td>4527.75</td>
+      <td>1111.00</td>
+    </tr>
+    <tr>
+      <th>TRE</th>
+      <td>252.00</td>
+      <td>13920.00</td>
+      <td>265.00</td>
+      <td>NaN</td>
+      <td>1187.06</td>
+      <td>3981.51</td>
+      <td>778.12</td>
+    </tr>
+    <tr>
+      <th>WECC</th>
+      <td>450.94</td>
+      <td>5595.18</td>
+      <td>411.41</td>
+      <td>184.94</td>
+      <td>1860.33</td>
+      <td>4223.98</td>
+      <td>348.60</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 # Assessment of Missingness
