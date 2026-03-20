@@ -641,26 +641,29 @@ At the time of prediction, I would have variables such as state, NERC region, cl
 
 
 # Baseline Model
-My model is a binary classification model.
+My model is a binary classifier using the features NERC.REGION, ANOMALY.LEVEL, YEAR, and URBAN to predict whether a major outage is caused by severe weather or another cause. This provides a simple starting point using core geographic, temporal, and environmental variables that are available at the time of prediction.
 
 
-My model's features are NERC.REGION, ANOMALY.LEVEL, YEAR, and URBAN.
+The features are: NERC.REGION (nominal), ANOMALY.LEVEL (quantitative), YEAR (ordinal), and URBAN (quantitative). NERC.REGION captures differences in infrastructure and regulation across regions, ANOMALY.LEVEL reflects unusual climate conditions that may contribute to severe weather, YEAR accounts for changes over time, and URBAN reflects population density and demand concentration.
 
 
-The predicted column was CAUSE.CATEGORY, encoded as 1 for severe weather and 0 for other causes.
+The predicted column was encoded as 1 for severe weather and 0 for all other causes.
+The performance of this model achieved an F1 score of 0.643 on the test set, providing a reasonable baseline but leaving room for improvement.
+
 
 
 # Final Model
-My final model used features:
+My final model incorporated the features: NERC.REGION, CLIMATE.REGION, ANOMALY.LEVEL, YEAR, MONTH, TOTAL.PRICE, TOTAL.SALES, TOTAL.CUSTOMERS, and URBAN. I used a DecisionTreeClassifier to allow for nonlinear relationships and interactions between features.
 
 
-I added BLANK to BLANK
+I added CLIMATE.REGION (nominal) because certain climates are more prone to severe weather events, MONTH (ordinal) to capture seasonality effects, TOTAL.PRICE (quantitative) and TOTAL.SALES (quantitative) to reflect economic and demand conditions, and TOTAL.CUSTOMERS (quantitative) to account for the scale of the population affected.
 
 
-I used GridSearchCV to select the best hyperparameters for the DecisionTreeClassifier. These were:
+I used GridSearchCV to find the best hyperparameters for the DecisionTreeClassifier. These were: criterion: gini, max_depth: 7, min_samples_split: 2, min_samples_leaf: 1
 
 
-BLANK
+I used the F1 score to evaluate performance. The final model achieved an F1 score of 0.724, which is an improvement over the baseline score of 0.643. This increase indicates that the additional features and model complexity improved the model’s ability to correctly classify severe weather outages while balancing precision and recall.
+
 
 # Fairness Analysis
 My groups for the fairness analysis are longer vs shorter outages, defined as outages with duration greater than 3000 minutes versus those with duration less than or equal to 3000 minutes. 
