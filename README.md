@@ -213,7 +213,7 @@ Next, I visualized the relationship between urbanization and customers affected.
 ![Urbanization vs Customers Affected](assets/images/urban-vs-customers.png)
 
 
-Lastly, I plotted outage duration against customers affected to see if longer outages impact more people. This helps determine whether outage severity is driven primarily by duration, scale or both.
+Lastly, I plotted outage duration against customers affected to see if longer outages impact more people. This helps determine whether outage severity is driven primarily by duration or scale.
 
 
 ![Outage Duration vs Customers Affected](assets/images/duration-vs-customers.png)
@@ -344,7 +344,7 @@ I grouped the dataset by NERC Region to see the distribution of outages by regio
 </div>
 
 
-Then, I group by cause category to see how different types of outage causes vary in frequency and impact. This helps us identify whether certain causes are associated with specific type of outages.
+Then, I group by cause category to see how different types of outage causes appear based on frequency and impact. This helps us determine whether certain causes are associated with specific type of outages.
 
 
 <div style="max-height: 400px; overflow-y: auto; overflow-x: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
@@ -420,7 +420,7 @@ Then, I group by cause category to see how different types of outage causes vary
 </div>
 
 
-Finally, I used a pivot table to summarize average outage duration and demand loss across regions and cause. This allows for a simple comparison of how outage characteristics differ across key dimensions.
+Finally, I used a pivot table to summarize average outage duration and demand loss across regions and cause. This allows for a simple comparison of how outage characteristics differ across region and cause.
 
 
 <div style="max-height: 400px; overflow-y: auto; overflow-x: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
@@ -587,7 +587,7 @@ Finally, I used a pivot table to summarize average outage duration and demand lo
 #### MNAR Analysis
 Several columns contain missing data in this dataset, but one column that is likely NMAR is **OUTAGE.DURATION**. The missingness could come from how outage timelines are recorded and reported across different sources. If certain outages did not have clearly documented start or restoration times then the duration couldnt be computed which could create a missing value. This missingness is tied to the unobserved value itself rather than being fully explained by other variables in the dataset.
 
-Additional data that could help determine whether **OUTAGE.DURATION** is MAR would include more detailed reporting info like the specific reporting entity responsible for each outage. With this we could test whether missingness depends on observed variables like region, cause category, or reporting source, rather than the unobserved duration itself.
+Some data that could help determine whether **OUTAGE.DURATION** is MAR would include more detailed reporting info like the specific reporting entity responsible for each outage. With this, we could test whether missingness depends on observed variables like region, cause category, or reporting source, rather than the unobserved duration itself.
 
 
 #### Missing Dependency
@@ -599,7 +599,7 @@ I found an observed TVD of 0.2520 with a p-value of 0.0012. The empirical distri
 
 
 Next, I examine the distribution of Cause Category when Demand Loss is missing vs not missing.
-I found an observed TVD of 0.1787 with a p-value of 0.0. The empirical distribution of the TVDs is shown below. Since this p-value is far below 0.05, I reject the null hypothesis in favor of the alternative. This indicates that the distribution of CAUSE.CATEGORY is significantly different when DEMAND.LOSS.MW is missing versus not missing, suggesting that the missingness of DEMAND.LOSS.MW depends on CAUSE.CATEGORY.
+I found an observed TVD of 0.1787 with a p-value of 0.0. The empirical distribution of the TVDs is shown below. Since this p-value is much less than 0.05, I reject the null hypothesis for the alternative. This indicates that the distribution of CAUSE.CATEGORY is significantly different when DEMAND.LOSS.MW is missing versus not missing, suggesting that the missingness of DEMAND.LOSS.MW depends on CAUSE.CATEGORY.
 
 
 ![Cause Category when Demand Loss is missing vs not missing](assets/images/TVD-2.png)
@@ -615,7 +615,7 @@ I will be testing whether outages caused by severe weather lead to greater deman
 **Alternate Hypothesis:** On average, the demand loss from severe weather outages is greater than the demand loss from outages caused by other factors.
 
 
-**Test statistic:** Difference in means. Specifically, mean demand loss (severe weather) − mean demand loss (other causes). 
+**Test statistic:** Difference in means: Mean demand loss (severe weather) − mean demand loss (other causes). 
 
 
 I performed a permutation test with 10,000 simulations to generate the null distribution of the test statistic.
@@ -644,44 +644,42 @@ At the time of prediction, I would have variables such as state, NERC region, cl
 My model is a binary classifier using the features NERC.REGION, ANOMALY.LEVEL, YEAR, and URBAN to predict whether a major outage is caused by severe weather or another cause. This provides a simple starting point using core geographic, temporal, and environmental variables that are available at the time of prediction.
 
 
-The features are: NERC.REGION (nominal), ANOMALY.LEVEL (quantitative), YEAR (ordinal), and URBAN (quantitative). NERC.REGION captures differences in infrastructure and regulation across regions, ANOMALY.LEVEL reflects unusual climate conditions that may contribute to severe weather, YEAR accounts for changes over time, and URBAN reflects population density and demand concentration.
+The features are: NERC.REGION, ANOMALY.LEVEL, YEAR, and URBAN. NERC.REGION captures differences in infrastructure and regulation across regions, ANOMALY.LEVEL reflects unusual climate conditions that may contribute to severe weather. YEAR accounts for changes over time and URBAN reflects population density and urbanization.
 
 
 The predicted column was encoded as 1 for severe weather and 0 for all other causes.
-The performance of this model achieved an F1 score of 0.643 on the test set, providing a reasonable baseline but leaving room for improvement.
 
+
+The performance of this model achieved an F1 score of 0.643 on the test set, providing a reasonable baseline but with room for improvement.
 
 
 # Final Model
 My final model incorporated the features: NERC.REGION, CLIMATE.REGION, ANOMALY.LEVEL, YEAR, MONTH, TOTAL.PRICE, TOTAL.SALES, TOTAL.CUSTOMERS, and URBAN. I used a DecisionTreeClassifier to allow for nonlinear relationships and interactions between features.
 
 
-I added CLIMATE.REGION (nominal) because certain climates are more prone to severe weather events, MONTH (ordinal) to capture seasonality effects, TOTAL.PRICE (quantitative) and TOTAL.SALES (quantitative) to reflect economic and demand conditions, and TOTAL.CUSTOMERS (quantitative) to account for the scale of the population affected.
+I added CLIMATE.REGION because certain climates are more prone to severe weather events, MONTH to capture temopral patterns, TOTAL.PRICE and TOTAL.SALES to reflect economic and demand conditions and TOTAL.CUSTOMERS for the scale of the population affected.
 
 
-I used GridSearchCV to find the best hyperparameters for the DecisionTreeClassifier. These were: criterion: gini, max_depth: 7, min_samples_split: 2, min_samples_leaf: 1
+I used GridSearchCV to find the best hyperparameters for the DecisionTreeClassifier. The results were: criterion: gini, max_depth: 7, min_samples_split: 2, min_samples_leaf: 1
 
 
 I used the F1 score to evaluate performance. The final model achieved an F1 score of 0.724, which is an improvement over the baseline score of 0.643. This increase indicates that the additional features and model complexity improved the model’s ability to correctly classify severe weather outages while balancing precision and recall.
 
 
 # Fairness Analysis
-My groups for the fairness analysis are outages in high-demand-loss versus low-demand-loss settings. I defined these groups by splitting outages based on whether DEMAND.LOSS.MW is above or below its median value.
+My groups for the fairness analysis are outages in high demand loss versus low demand loss settings. I defined these groups by splitting outages based on if it was higher or lower than the median value for demand loss.
 
 
-I chose these groups because demand loss reflects the severity and impact of an outage. This is important to make sure the model performs consistently across both high-impact and lower-impact outages. If performance differs across these groups, the model may be less reliable.
+I chose these groups because demand loss reflects the severity and impact of an outage. This is important to make sure the model performs consistently across both high-impact and lower-impact outages. If performance differs across these groups, the model may be less reliable. My evaluation metric will be the F1 score since the classes are imbalanced and F1 accounts for both precision and recall. 
 
 
-My evaluation metric will be the F1 score, since the classes are imbalanced and F1 accounts for both precision and recall. I compare the absolute difference in F1 scores between high-demand-loss and low-demand-loss outages.
+**Null Hypothesis:** The model is fair. The F1 scores for high demand loss and low demand loss outages are approximately equal, and any observed difference is random.
 
 
-**Null Hypothesis:** The model is fair. The F1 scores for high-demand-loss and low-demand-loss outages are approximately equal, and any observed difference is due to random chance.
+**Alternative Hypothesis:** The model is unfair. The F1 score differs significantly high demand loss and low demand loss outages.
 
 
-**Alternative Hypothesis:** The model is unfair. The F1 score differs significantly between high-demand-loss and low-demand-loss outages.
-
-
-I performed a permutation test with 10,000 trials. Using a standard significance level of 0.05, I obtained a p-value of 0.004. Since this is below the significance level, I reject the null hypothesis. The model shows a significant difference in F1 score between high-demand-loss and low-demand-loss outages, indicating that its performance is not consistent across these groups.
+I performed a permutation test with 10,000 trials. Using a significance level of 0.05, I obtained a p-value of 0.004. Since this is below the significance level, I reject the null hypothesis. The model shows a significant difference in F1 score between high demand loss and low demand loss outages, indicating that its performance is not consistent across these groups.
 
 
 '![Fairness Analysis](assets/images/fairness.png)'
