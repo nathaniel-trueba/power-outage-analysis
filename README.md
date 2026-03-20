@@ -595,14 +595,14 @@ First, I examine the distribution of Cause Category when Outage Duration is miss
 I found an observed TVD of 0.2520 with a p-value of 0.0012. The empirical distribution of the TVDs is shown below. Since this p-value is below the significance level of 0.05, I reject the null hypothesis for the alternative. This means the distribution of CAUSE.CATEGORY is significantly different when OUTAGE.DURATION is missing versus not missing suggesting that the missingness of OUTAGE.DURATION depends on CAUSE.CATEGORY.
 
 
-![Cause Category when Outage Duration is missing vs not missing](assets/images/TVD 1.png)
+![Cause Category when Outage Duration is missing vs not missing](assets/images/TVD-1.png)
 
 
 Next, I examine the distribution of Cause Category when Demand Loss is missing vs not missing.
 I found an observed TVD of 0.1787 with a p-value of 0.0. The empirical distribution of the TVDs is shown below. Since this p-value is far below 0.05, I reject the null hypothesis in favor of the alternative. This indicates that the distribution of CAUSE.CATEGORY is significantly different when DEMAND.LOSS.MW is missing versus not missing, suggesting that the missingness of DEMAND.LOSS.MW depends on CAUSE.CATEGORY.
 
 
-![Cause Category when Demand Loss is missing vs not missing](assets/images/TVD 2.png)
+![Cause Category when Demand Loss is missing vs not missing](assets/images/TVD-2.png)
 
 
 # Hypothesis Testing
@@ -621,10 +621,13 @@ I will be testing whether outages caused by severe weather lead to greater deman
 I performed a permutation test with 10,000 simulations to generate the null distribution of the test statistic.
 
 
-I got a p-value of BLANK, indicating strong evidence against the null hypothesis at a 0.05 significance level.
+The p-value I got was 0.1688, so with a standard significance level of 0.05, we fail to reject the null hypothesis because the results are not statistically significant. We conclude that there is not sufficient evidence to say that outages caused by severe weather lead to greater demand loss on average compared to outages caused by other factors.
 
 
 This plot shows the observed difference in means compared to the distribution of differences generated under the null hypothesis.
+
+
+'![Hypothesis Testing](assets/images/hypothesis-test.png)'
 
 
 # Framing a Prediction Problem
